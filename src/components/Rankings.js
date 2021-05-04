@@ -18,11 +18,8 @@ export default function Rankings() {
     useEffect(() => {
         fetch(API_URL + "/rankings")
             .then(res => res.json())
-            .then(data => {
-                console.log(data[0].rank);
-                return data.works})
-                .then(works =>
-                works.map(listing => {
+            .then(listings => 
+                listings.map(listing => {
                     return {
                         rank: listing.rank,
                         country: listing.country,
@@ -32,14 +29,14 @@ export default function Rankings() {
                 })
             )
             .then(listings => setRowData(listings));
-    },[])
+    }, [])
 
     return (
         <div
             className="ag-theme-balham-dark"
             style={{
-                height: "300px",
-                width: "600px"
+                height: "400px",
+                width: "900px"
             }}
         >
             <AgGridReact
