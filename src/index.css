@@ -1,0 +1,16 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  background-image: linear-gradient(rgba(90, 90, 90), rgba(10, 10, 10));
+  min-height: 100vh;
+}
+
+.AppHeader {
+  min-height: 20vh;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
