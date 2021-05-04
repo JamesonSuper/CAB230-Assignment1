@@ -26,7 +26,7 @@ export default class Registration extends Component {
             email: this.state.email,
             password: this.state.password
         }
-        
+
         fetch(url, {
             method: 'POST',
             headers: {
@@ -34,14 +34,22 @@ export default class Registration extends Component {
             },
             body: JSON.stringify(data),
         })
-            .then(response => response.json())
+            .then(response => {
+                console.log(response.status + ": " + response.statusText);
+                if (response.status > 200 && response.status < 300) {
+                    alert("Error - " + response.status + ": " + response.statusText);
+                }
+                else if (response.status > 399) {
+                    alert("Success! Registration complete.");
+                }
+                return response.json();
+            })
             .then(data => {
                 console.log('Success:', data);
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
-
     }
 
     render() {

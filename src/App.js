@@ -2,8 +2,9 @@ import React from "react"
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import "./index.css";
-import Registration from "./auth/Registration.js";
-import Authenticate from "./auth/Authenticate.js";
+import Rankings from "./components/Rankings.js"
+import Registration from "./components/auth/Registration.js";
+import Authenticate from "./components/auth/Authenticate.js";
 import Nav from "./Nav.js";
 
 const Home = () => (
@@ -12,21 +13,6 @@ const Home = () => (
             <h2>World Happiness Data</h2>
         </header>
         <p>Home</p>
-        <footer class="footer">
-        <div class="text-center py-2 bg-secondary">
-            <span class="text-light">Copyright &copy; 2019</span>
-        </div>
-    </footer>
-    </div>
-    
-);
-
-const Rankings = () => (
-    <div>
-        <header className="AppHeader">
-            <h2>Rankings</h2>
-        </header>
-        <p>Rankings</p>
     </div>
 );
 
@@ -60,14 +46,6 @@ const Login = () => (
     </div>
 );
 
-const Register = () => (
-    <div>
-        <header className="AppHeader">
-            <h2>Register</h2>
-        </header>
-        <Registration />
-    </div>
-);
 
 export default function App() {
     return (
@@ -80,7 +58,7 @@ export default function App() {
                     <Route path="/search" component={Search} />
                     <Route path="/factors" component={Factors} />
                     <Route path="/login" component={Login} />
-                    <Route path="/register" component={Register} />
+                    <Route path="/register" component={Registration} />
                 </main>
             </div>
         </Router>

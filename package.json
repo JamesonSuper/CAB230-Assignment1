@@ -5,6 +5,8 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "ag-grid-community": "^25.2.0",
+    "ag-grid-react": "^25.2.0",
     "react": "16.8.3",
     "react-dom": "16.8.3",
     "react-router-dom": "5.0.0",
