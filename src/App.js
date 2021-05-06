@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { NavLink } from 'react-router-dom'
 import { BrowserRouter as Router, Route, Switch , Redirect} from "react-router-dom";
 
@@ -6,7 +6,7 @@ import "./index.css";
 import Home from "./components/Home.js";
 import Rankings from "./components/Rankings.js";
 import Factors from "./components/Factors.js";
-import Search from "./components/Search.js";
+import Search from "./components/SearchBar.js";
 import Registration from "./components/auth/Registration.js";
 import Login from "./components/auth/Login.js";
 import Logout from "./components/auth/Logout.js";

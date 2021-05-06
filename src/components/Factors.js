@@ -3,13 +3,13 @@ import { AgGridReact } from "ag-grid-react";
 import { Badge } from "reactstrap";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham-dark.css";
-import { useHistory } from "react-router";
-
+import SearchBar from "./SearchBar.js"
 const API_URL = "http://131.181.190.87:3000";
 
 
 export default function Factors() {
-    const [year, setYear] = useState(2020)
+    const [search, setSearch] = useState("");
+    const [year, setYear] = useState(2020);
     const [rowData, setRowData] = useState([]);
     const columns = [
         { headerName: "Rank", field: "rank", sortable: true, filter: 'agNumberColumnFilter' },
@@ -24,7 +24,7 @@ export default function Factors() {
     ];
     useEffect(() => {
         if (localStorage.getItem("token")) {
-            fetch(API_URL+`/factors/${year}`, {
+            fetch(API_URL + `/factors/${year}/?country=${search}`, {
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem("token")
                 }
@@ -56,11 +56,7 @@ export default function Factors() {
         else {
             alert("You are not authorised to view this resource.")
         }
-    }, [year])
-
-    function refreshFactors() {
-
-    }
+    }, [year, search])
 
     return (
         <div className="container">
@@ -78,7 +74,7 @@ export default function Factors() {
                     <option value="2016">2016</option>
                 </select>
             </div>
-
+            <SearchBar onSubmit={setSearch}/>
             <div
                 className="ag-theme-balham-dark"
                 style={{
