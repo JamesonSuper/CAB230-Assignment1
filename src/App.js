@@ -1,66 +1,58 @@
-import React from "react"
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch , Redirect} from "react-router-dom";
 
 import "./index.css";
-import Rankings from "./components/Rankings.js"
+import Home from "./components/Home.js";
+import Rankings from "./components/Rankings.js";
+import Factors from "./components/Factors.js";
+import Search from "./components/Search.js";
 import Registration from "./components/auth/Registration.js";
-import Authenticate from "./components/auth/Authenticate.js";
-import Nav from "./Nav.js";
-
-const Home = () => (
-    <div>
-        <header className="AppHeader">
-            <h2>World Happiness Data</h2>
-        </header>
-        <p>Home</p>
-    </div>
-);
-
-const Search = () => (
-    <div>
-        <header className="AppHeader">
-            <h2>Search</h2>
-        </header>
-        <p>Search</p>
-    </div>
-);
-
-const Factors = () => (
-    <div>
-        <header className="AppHeader">
-            <h2>Factors</h2>
-        </header>
-        <p>Factors</p>
-    </div>
-);
-
-const Login = () => (
-    <div>
-        <header className="AppHeader">
-            <h2>Login</h2>
-        </header>
-        <Authenticate />
-        <div>
-            <p></p>
-        </div>
-    </div>
-);
-
+import Login from "./components/auth/Login.js";
+import Logout from "./components/auth/Logout.js";
 
 export default function App() {
+    const links = [
+        { name: "Home", path: "/" },
+        { name: "Rankings", path: "/rankings" },
+        { name: "Factors", path: "/factors" },
+        { name: "Register", path: "/register" },
+        { name: "Login", path: "/login" },
+        { name: "Logout", path: "/logout" }
+    ]
+
+    function Navbar() {
+        return (
+            <div>
+                <nav>
+                    <ul >
+                        {links.map((link, index) => (
+                            <NavLink key={index} to={link.path} exact activeClassName="selected">
+                                <li className="navLink">{link.name}</li>
+                            </NavLink>
+                        ))}
+                    </ul>
+                </nav>
+            </div>
+        );
+    }
     return (
         <Router>
             <div className="App">
-                <Nav />
-                <main>
-                    <Route exact path="/" component={Home} />
-                    <Route path="/rankings" component={Rankings} />
-                    <Route path="/search" component={Search} />
-                    <Route path="/factors" component={Factors} />
-                    <Route path="/login" component={Login} />
-                    <Route path="/register" component={Registration} />
-                </main>
+                <Navbar />
+                <Switch>
+                    <Route exact path="/" component={Home}>
+                        <Redirect to="/home" />
+                    </Route>
+                    <Route exact path="/home" component={Home} />
+                    <Route exact path="/rankings" component={Rankings} />
+                    <Route exact path="/search" component={Search} />
+                    <Route exact path="/factors" component={Factors} />
+                    <Route exact path="/register" component={Registration} />
+                    <Route exact path="/login" component={Login} />
+                    <Route exact path="/logout" component={Logout} />
+                </Switch>
             </div>
-        </Router>
+        </Router >
     );
 }

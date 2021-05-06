@@ -2,7 +2,7 @@ import React, { useState } from "react"
 
 const API_URL = "http://131.181.190.87:3000"
 
-export default function Registration() {
+export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -12,8 +12,8 @@ export default function Registration() {
             email: email,
             password: password
         }
-
-        fetch(`${API_URL}/user/register`, {
+        console.log(data);
+        fetch(`${API_URL}/user/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -22,20 +22,18 @@ export default function Registration() {
         })
             .then(response => {
                 console.log(response.status + ": " + response.statusText);
-                if (response.status > 200 && response.status < 300) {
-                    alert("Success! Registration complete.");
-                }
-                else if (response.status > 399) {
+                if (response.status > 399) {
                     alert("Error - " + response.status + ": " + response.statusText);
                 }
-                return response.json();
+                return response.json()
             })
             .then(data => {
-                console.log('Success:', data);
+                console.log("Token received: " + data.token);
+                localStorage.setItem("token", data.token);
             })
             .catch((error) => {
                 console.error('Error:', error);
-                alert("Error registering.")
+                alert("Error: " + error)
             });
     }
     return (

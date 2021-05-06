@@ -10,6 +10,7 @@ nav ul {
     padding-inline-start: 0;
     margin-left: auto;
     margin-right: auto;
+    width: auto;
   }
 
 nav a {
@@ -22,12 +23,12 @@ nav li {
   font-size: 1 rem;
   display: inline-block;
   height: 100%;
-  width: 10%;
+  width: auto;
+  margin-inline: 15px;
 }
 
 .selected > li {
   border-bottom: 2px solid rgb(24, 24, 24);
-  color: red;
   font-size: 1 rem;
   position: relative;
 };
