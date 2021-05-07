@@ -2,13 +2,7 @@ import React, { useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 
 export default function HorizontalBar(props) {
-  //  console.log(props.rowData[0].country);
-  //   for( let i = 0; i < props.columns.length; i++ ) {
-  //     console.log(props.columns[i].field);
-  //     for( let j = 0; j < props.rowData.length; j++ ){
-  //       console.log(props.rowData[j].score);
-  //     }
-  // }
+  console.log(props.rowData[0].country);
   console.log(props.columns[1].headerName);
   const data = {
     labels: [

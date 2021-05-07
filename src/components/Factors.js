@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { Badge } from "reactstrap";
 import "ag-grid-community/dist/styles/ag-grid.css";
@@ -9,6 +9,7 @@ const API_URL = "http://131.181.190.87:3000";
 
 
 export default function Factors() {
+    const [isReady, useIsReady] = useState(false);
     const [gridApi, setGridApi] = useState(null);
     const [search, setSearch] = useState("");
     const [year, setYear] = useState(2020);
@@ -25,13 +26,6 @@ export default function Factors() {
         { headerName: "Generosity", field: "generosity", width: 90, sortable: true, filter: 'agNumberColumnFilter' },
         { headerName: "Trust", field: "trust", width: 90, sortable: true, filter: 'agNumberColumnFilter' }
     ];
-    const gridOptions = {
-        columnDefs: columns,
-        pagination: true,
-        paginationPageSize: 10,
-        onPaginationChanged: getDisplayedRowData,
-        onGridReady: params => setGridApi(params.api),
-    }
     useEffect(() => {
         if (localStorage.getItem("token")) {
             fetch(API_URL + `/factors/${year}/?country=${search}`, {
@@ -68,26 +62,37 @@ export default function Factors() {
         }
     }, [year, search])
 
-    function getDisplayedRowData() {
-        console.log('onPaginationPageLoaded');
-        let toUpdate = []
-        // Multiplying pageNumber by 10 so that the index below is incremented by 10, as 10 records per page.
-        let pageNumber = gridApi.paginationGetCurrentPage() * 10;
-        // Checking if data displayed is less than 10 rows (e.g on the last page)
-        setDisplayedData([]);
-        if (gridApi.paginationGetCurrentPage() + 1 == gridApi.paginationGetTotalPages()) {
-            for (let i = 0; i < rowData.length % 10; i++) {
-                toUpdate.push(gridApi.getDisplayedRowAtIndex(pageNumber + i).data)
-            }
-        }
-        else {
-            for (let i = 0; i < 10; i++) {
-                toUpdate.push(gridApi.getDisplayedRowAtIndex(pageNumber + i).data)
-            }
-        }
-        setDisplayedData(toUpdate);
-        console.log('displayedData', toUpdate);
+    function useDynamicCallback(callback) {
+        const ref = useRef();
+        ref.current = callback;
+        return useCallback((...args) => ref.current.apply(this, args), []);
     }
+
+    const onGridReady = params => {
+        useIsReady(true);
+        setGridApi(params.api);
+    }
+
+    const getDisplayedRowData = useDynamicCallback((params) => {
+        if (isReady) {
+            let toUpdate = []
+            // Multiplying pageNumber by 10 so that the index below is incremented by 10, as 10 records per page.
+            let pageNumber = params.api.paginationGetCurrentPage() * 10;
+            // Checking if data displayed is less than 10 rows (e.g on the last page)
+            setDisplayedData([]);
+            if (params.api.paginationGetCurrentPage() + 1 == params.api.paginationGetTotalPages()) {
+                for (let i = 0; i < rowData.length % 10; i++) {
+                    toUpdate.push(params.api.getDisplayedRowAtIndex(pageNumber + i).data)
+                }
+            }
+            else {
+                for (let i = 0; i < 10; i++) {
+                    toUpdate.push(params.api.getDisplayedRowAtIndex(pageNumber + i).data)
+                }
+            }
+            setDisplayedData(toUpdate);
+        }
+    });
     return (
         <div className="container">
             <h1>Country Happiness Rankings</h1>
@@ -112,7 +117,14 @@ export default function Factors() {
                     width: "840px"
                 }}
             >
-                <AgGridReact rowData={rowData} gridOptions={gridOptions} />
+                <AgGridReact
+                    rowData={rowData}
+                    columnDefs={columns}
+                    pagination={true}
+                    paginationPageSize={10}
+                    onPaginationChanged={getDisplayedRowData}
+                    onGridReady={onGridReady}
+                />
             </div>
             <div>
                 {displayedData.length > 0 ? <HorizontalBar columns={columns} rowData={displayedData} /> : null}
