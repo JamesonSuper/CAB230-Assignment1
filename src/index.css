@@ -2,15 +2,14 @@
   font-family: sans-serif;
   background-image: linear-gradient(rgba(120, 120, 120), rgba(10, 10, 10));
   min-height: 100vh;
+  text-align: center;
 }
 
 nav ul {
     position: relative;
     list-style: none;
     padding-inline-start: 0;
-    margin-left: auto;
-    margin-right: auto;
-    width: auto;
+    font-size: 2 rem;
   }
 
 nav a {
@@ -20,15 +19,13 @@ nav a {
 nav li {
   text-align: center;
   color: white;
-  font-size: 1 rem;
   display: inline-block;
   height: 100%;
   width: auto;
-  margin-inline: 15px;
+  margin-inline: 25px;
 }
 
 .selected > li {
   border-bottom: 2px solid rgb(24, 24, 24);
-  font-size: 1 rem;
-  position: relative;
+  font-size: 2 rem;
 };

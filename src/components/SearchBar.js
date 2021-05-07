@@ -11,6 +11,7 @@ export default function SearchBar(props) {
                 name="search"
                 id="search"
                 type="search"
+                placeholder="Search by Country name..."
                 value={innerSearch}
                 onChange={(e) => setInnerSearch(e.target.value)}
             />

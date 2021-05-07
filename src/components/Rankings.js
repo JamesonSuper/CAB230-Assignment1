@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { Badge } from "reactstrap";
-import Search from "./SearchBar.js"
+import SearchBar from "./SearchBar.js"
 import "ag-grid-community/dist/styles/ag-grid.css";
-import "ag-grid-community/dist/styles/ag-theme-balham-dark.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
 
 const API_URL = "http://131.181.190.87:3000";
 
 
 export default function Rankings() {
+    const [search, setSearch] = useState("");
     const [rowData, setRowData] = useState([]);
     const columns = [
-        { headerName: "Rank", field: "rank", sortable: true, filter: 'agNumberColumnFilter' },
-        { headerName: "Country", field: "country", sortable: true, filter: 'agTextColumnFilter' },
-        { headerName: "Score", field: "score", sortable: true, filter: 'agNumberColumnFilter' },
-        { headerName: "Year", field: "year", sortable: true , filter: 'agNumberColumnFilter'}
+        { headerName: "Rank", field: "rank", width: "170px", sortable: true, filter: 'agNumberColumnFilter' },
+        { headerName: "Country", field: "country", width: "270px", sortable: true, filter: 'agTextColumnFilter' },
+        { headerName: "Score", field: "score", width: "220px", sortable: true, filter: 'agNumberColumnFilter' },
+        { headerName: "Year", field: "year", width: "220px", sortable: true , filter: 'agNumberColumnFilter'}
     ];
     useEffect(() => {
-        fetch(API_URL + "/rankings")
+        fetch(API_URL + `/rankings?country=${search}`)
             .then(res => res.json())
             .then(listings =>
                 listings.map(listing => {
@@ -30,7 +31,7 @@ export default function Rankings() {
                 })
             )
             .then(listings => setRowData(listings));
-    }, [])
+    }, [search])
 
     return (
         <div className="container">
@@ -39,12 +40,12 @@ export default function Rankings() {
                 <Badge color="success">{rowData.length}</Badge> Rankings loaded.
             </p>
             <div>
-                <Search />
+                <SearchBar onSubmit={setSearch}/>
             </div>
             <div
-                className="ag-theme-balham-dark"
+                className="ag-theme-alpine-dark"
                 style={{
-                    height: "400px",
+                    height: "627px",
                     width: "900px"
                 }}
             >
@@ -52,7 +53,7 @@ export default function Rankings() {
                     columnDefs={columns}
                     rowData={rowData}
                     pagination={true}
-                    paginationPageSize={10}
+                    paginationPageSize={20}
                 />
             </div>
         </div>

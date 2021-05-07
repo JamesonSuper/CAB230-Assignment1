@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom'
 import { BrowserRouter as Router, Route, Switch , Redirect} from "react-router-dom";
 
 import "./index.css";
-import Home from "./components/Home.js";
 import Rankings from "./components/Rankings.js";
 import Factors from "./components/Factors.js";
 import Search from "./components/SearchBar.js";
@@ -13,7 +12,6 @@ import Logout from "./components/auth/Logout.js";
 
 export default function App() {
     const links = [
-        { name: "Home", path: "/" },
         { name: "Rankings", path: "/rankings" },
         { name: "Factors", path: "/factors" },
         { name: "Register", path: "/register" },
@@ -25,7 +23,7 @@ export default function App() {
         return (
             <div>
                 <nav>
-                    <ul >
+                    <ul>
                         {links.map((link, index) => (
                             <NavLink key={index} to={link.path} exact activeClassName="selected">
                                 <li className="navLink">{link.name}</li>
@@ -41,10 +39,9 @@ export default function App() {
             <div className="App">
                 <Navbar />
                 <Switch>
-                    <Route exact path="/" component={Home}>
-                        <Redirect to="/home" />
+                    <Route exact path="/" component={Rankings}>
+                        <Redirect to="/rankings" />
                     </Route>
-                    <Route exact path="/home" component={Home} />
                     <Route exact path="/rankings" component={Rankings} />
                     <Route exact path="/search" component={Search} />
                     <Route exact path="/factors" component={Factors} />
