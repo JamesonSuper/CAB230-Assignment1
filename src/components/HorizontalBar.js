@@ -1,63 +1,45 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Bar } from 'react-chartjs-2';
+import "../index.css"
 
 export default function HorizontalBar(props) {
-  console.log(props.rowData[0].country);
-  console.log(props.columns[1].headerName);
   const data = {
-    labels: [
-      'Score',
-      'Economy',
-      'Family',
-      'Health',
-      'Freedom',
-      'Generosity',
-      'Trust'],
-    datasets: [
-      {
-        label: [
-          'Score',
-          'Economy',
-          'Family',
-          'Health',
-          'Freedom',
-          'Generosity',
-          'Trust'
-        ],
-        data: [1, 1, 1, 1, 1, 1, 1],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-
-        ],
-        borderWidth: 1,
-      },
-    ],
+    labels: props.countries,
+    datasets:
+      [
+        {
+          label: props.label,
+          data: props.metricData,
+          color: 'rgba(0, 0, 0, 1)',
+          backgroundColor: 'rgba(45,52,54, 1)',
+          borderColor: 'rgba(28,28,28, 1)',
+          borderWidth: 2,
+        }
+      ]
   };
-
   const options = {
     indexAxis: 'y',
-    // Elements options apply to all of the options unless overridden in a dataset
-    // In this case, we are setting the border of each horizontal bar to be 2px wide
+    layout: {
+      padding: 10
+    },
     elements: {
       bar: {
         borderWidth: 2,
       },
     },
-    responsive: true,
     plugins: {
       legend: {
         position: 'right',
-      },
-    },
+        labels: {
+          fontColor: '#f00',
+        }
+      }
+    }
   };
 
   return (
-    <div className='header'>
-      <h1 className='title'>Horizontal Bar Chart</h1>
-      <Bar data={data} options={options} />
-    </div>
+    <div>
+      <Bar className="barGraph" data={data} options={options} />
+    </div >
   );
 }

@@ -1,6 +1,6 @@
 .App {
   font-family: sans-serif;
-  background-image: linear-gradient(rgba(120, 120, 120), rgba(10, 10, 10));
+  background-image: linear-gradient(rgb(15, 15, 15), rgba(5, 5, 5));
   min-height: 100vh;
   text-align: center;
 }
@@ -26,6 +26,10 @@ nav li {
 }
 
 .selected > li {
-  border-bottom: 2px solid rgb(24, 24, 24);
+  border-bottom: 2px solid rgb(255, 255, 255);
   font-size: 2 rem;
 };
+
+.test {
+  color: white;
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { Badge } from "reactstrap";
+import "../index.css"
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham-dark.css";
 import SearchBar from "./SearchBar.js"
@@ -37,25 +38,42 @@ export default function Factors() {
                     console.log(res.status + " - " + res.statusText)
                     if (res.status > 300) {
                         alert("Error: " + res.status + " - " + res.statusText);
+                        return false;
                     }
-                    return res.json();
+                    else {
+                        return res.json();
+                    }
                 })
-                .then(listings =>
-                    listings.map(listing => {
-                        return {
-                            rank: listing.rank,
-                            country: listing.country,
-                            score: listing.score,
-                            economy: listing.economy,
-                            family: listing.family,
-                            health: listing.health,
-                            freedom: listing.freedom,
-                            generosity: listing.generosity,
-                            trust: listing.trust
-                        };
-                    })
+                .then(listings => {
+                    if (listings) {
+                        listings.map(listing => {
+                            return {
+                                rank: listing.rank,
+                                country: listing.country,
+                                score: listing.score,
+                                economy: listing.economy,
+                                family: listing.family,
+                                health: listing.health,
+                                freedom: listing.freedom,
+                                generosity: listing.generosity,
+                                trust: listing.trust
+                            };
+                        })
+                    }
+                    else {
+                        return false
+                    }
+                }
                 )
-                .then(listings => setRowData(listings));
+                .then(listings => {
+                    if (listings) {
+                        setRowData(listings);
+                    }
+                    else {
+                        return null;
+                    }
+                }
+                );
         }
         else {
             alert("You are not authorised to view this resource.")
@@ -91,11 +109,12 @@ export default function Factors() {
                 }
             }
             setDisplayedData(toUpdate);
+            console.log(displayedData);
         }
     });
     return (
         <div className="container">
-            <h1>Country Happiness Rankings</h1>
+            <h1 className="test">Country Happiness Rankings</h1>
             <div>
                 <select value={year} onChange={((e) => setYear(e.target.value))}>
                     <option value="2020">2020</option>
@@ -127,7 +146,56 @@ export default function Factors() {
                 />
             </div>
             <div>
-                {displayedData.length > 0 ? <HorizontalBar columns={columns} rowData={displayedData} /> : null}
+                {displayedData.length > 0 ? <HorizontalBar
+                    columns={columns}
+                    label="Score"
+                    metricData={displayedData.map(row => { return row.score })}
+                    countries={displayedData.map(row => { return row.country })}
+                /> : null}
+
+                {displayedData.length > 0 ? <HorizontalBar
+                    columns={columns}
+                    label="Economy"
+                    metricData={displayedData.map(row => { return row.economy })}
+                    countries={displayedData.map(row => { return row.country })}
+                /> : null}
+
+                {displayedData.length > 0 ? <HorizontalBar
+                    columns={columns}
+                    label="Family"
+                    metricData={displayedData.map(row => { return row.family })}
+                    countries={displayedData.map(row => { return row.country })}
+                /> : null}
+
+                {displayedData.length > 0 ? <HorizontalBar
+                    columns={columns}
+                    label="Health"
+                    metricData={displayedData.map(row => { return row.health })}
+                    countries={displayedData.map(row => { return row.country })}
+                /> : null}
+
+                {displayedData.length > 0 ? <HorizontalBar
+                    columns={columns}
+                    label="Freedom"
+                    metricData={displayedData.map(row => { return row.freedom })}
+                    countries={displayedData.map(row => { return row.country })}
+                /> : null}
+
+                {displayedData.length > 0 ? <HorizontalBar
+                    columns={columns}
+                    label="Generosity"
+                    metricData={displayedData.map(row => { return row.generosity })}
+                    countries={displayedData.map(row => { return row.country })}
+                /> : null}
+
+                {displayedData.length > 0 ? <HorizontalBar
+                    columns={columns}
+                    label="Trust"
+                    metricData={displayedData.map(row => { return row.trust })}
+                    countries={displayedData.map(row => { return row.country })}
+                /> : null}
+
+
             </div>
         </div>
     );
