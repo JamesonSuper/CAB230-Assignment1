@@ -26,16 +26,20 @@ export default function Registration() {
                     alert("Success! Registration complete.");
                 }
                 else if (response.status > 399) {
-                    alert("Error - " + response.status + ": " + response.statusText);
+                    throw new Error(response.statusText);
                 }
                 return response.json();
             })
             .then(data => {
                 console.log('Success:', data);
+                setEmail("");
+                setPassword("");
             })
             .catch((error) => {
                 console.error('Error:', error);
-                alert("Error registering.")
+                alert(`There was an error: ${error}`);
+                setEmail("");
+                setPassword("");
             });
     }
     return (

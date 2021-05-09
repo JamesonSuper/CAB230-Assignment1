@@ -12,7 +12,6 @@ export default function Login() {
             email: email,
             password: password
         }
-        console.log(data);
         fetch(`${API_URL}/user/login`, {
             method: 'POST',
             headers: {
@@ -28,12 +27,16 @@ export default function Login() {
                 return response.json()
             })
             .then(data => {
-                console.log("Token received: " + data.token);
                 localStorage.setItem("token", data.token);
+                alert("Success! You are logged in.");
+                setEmail("");
+                setPassword("");
             })
             .catch((error) => {
                 console.error('Error:', error);
-                alert("Error: " + error)
+                alert("There was a network error!" + error);
+                setEmail("");
+                setPassword("");
             });
     }
     return (
