@@ -11,9 +11,9 @@ const API_URL = "http://131.181.190.87:3000";
 
 export default function Factors() {
     const [isReady, useIsReady] = useState(false);
-    const [gridApi, setGridApi] = useState(null);
     const [search, setSearch] = useState("");
     const [year, setYear] = useState(2020);
+    const [countriesArray, setCountriesArray] = useState([]);
     const [rowData, setRowData] = useState([]);
     const [displayedData, setDisplayedData] = useState([]);
     const columns = [
@@ -38,42 +38,41 @@ export default function Factors() {
                     console.log(res.status + " - " + res.statusText)
                     if (res.status > 300) {
                         alert("Error: " + res.status + " - " + res.statusText);
-                        return false;
+
                     }
-                    else {
-                        return res.json();
-                    }
+                    return res.json();
                 })
-                .then(listings => {
-                    if (listings) {
-                        listings.map(listing => {
-                            return {
-                                rank: listing.rank,
-                                country: listing.country,
-                                score: listing.score,
-                                economy: listing.economy,
-                                family: listing.family,
-                                health: listing.health,
-                                freedom: listing.freedom,
-                                generosity: listing.generosity,
-                                trust: listing.trust
-                            };
-                        })
-                    }
-                    else {
-                        return false
-                    }
-                }
+                .then(listings =>
+                    listings.map(listing => {
+                        return {
+                            rank: listing.rank,
+                            country: listing.country,
+                            score: listing.score,
+                            economy: listing.economy,
+                            family: listing.family,
+                            health: listing.health,
+                            freedom: listing.freedom,
+                            generosity: listing.generosity,
+                            trust: listing.trust
+                        };
+                    })
                 )
-                .then(listings => {
-                    if (listings) {
-                        setRowData(listings);
+                .then(listings => setRowData(listings));
+            fetch(API_URL + `/countries`)
+                .then(res => {
+                    console.log(res.status + " - " + res.statusText)
+                    if (res.status > 300) {
+                        alert("Error: " + res.status + " - " + res.statusText);
+
                     }
-                    else {
-                        return null;
-                    }
-                }
-                );
+                    return res.json();
+                }).then(countries => countries.map(country => {
+                    return country
+                })
+                ).then(countries => {
+                    setCountriesArray(countries)
+                    console.log(countries)
+                });
         }
         else {
             alert("You are not authorised to view this resource.")
@@ -88,7 +87,6 @@ export default function Factors() {
 
     const onGridReady = params => {
         useIsReady(true);
-        setGridApi(params.api);
     }
 
     const getDisplayedRowData = useDynamicCallback((params) => {
@@ -98,14 +96,16 @@ export default function Factors() {
             let pageNumber = params.api.paginationGetCurrentPage() * 10;
             // Checking if data displayed is less than 10 rows (e.g on the last page)
             setDisplayedData([]);
-            if (params.api.paginationGetCurrentPage() + 1 == params.api.paginationGetTotalPages()) {
-                for (let i = 0; i < rowData.length % 10; i++) {
-                    toUpdate.push(params.api.getDisplayedRowAtIndex(pageNumber + i).data)
+            if (rowData.length > 0) {
+                if (params.api.paginationGetCurrentPage() + 1 == params.api.paginationGetTotalPages()) {
+                    for (let i = 0; i < rowData.length % 10; i++) {
+                        toUpdate.push(params.api.getDisplayedRowAtIndex(pageNumber + i).data)
+                    }
                 }
-            }
-            else {
-                for (let i = 0; i < 10; i++) {
-                    toUpdate.push(params.api.getDisplayedRowAtIndex(pageNumber + i).data)
+                else {
+                    for (let i = 0; i < 10; i++) {
+                        toUpdate.push(params.api.getDisplayedRowAtIndex(pageNumber + i).data)
+                    }
                 }
             }
             setDisplayedData(toUpdate);
@@ -124,11 +124,17 @@ export default function Factors() {
                     <option value="2016">2016</option>
                     <option value="2015">2015</option>
                 </select>
+
             </div>
-            <SearchBar onSubmit={setSearch} />
-            <p>
-                {rowData.length > 0 ? (<Badge color="success">{rowData.length}</Badge>) : (<Badge color="danger">{rowData.length}</Badge>)} Rankings loaded.
-            </p>
+            <div>
+                <select value={search} onChange={((e) => setSearch(e.target.value))}>
+                    <option key="" value=""></option>
+                    {countriesArray.map(country =>
+                        <option key={country} value={country}>{country}</option>)}
+                </select>
+                <SearchBar onSubmit={setSearch} innerSearch={search} />
+            </div>
+            <p>{rowData.length > 0 ? (<Badge color="success">{rowData.length}</Badge>) : (<Badge color="danger">{rowData.length}</Badge>)} Rankings loaded.</p>
             <div
                 className="ag-theme-balham-dark"
                 style={{
@@ -147,55 +153,46 @@ export default function Factors() {
             </div>
             <div>
                 {displayedData.length > 0 ? <HorizontalBar
-                    columns={columns}
                     label="Score"
                     metricData={displayedData.map(row => { return row.score })}
                     countries={displayedData.map(row => { return row.country })}
                 /> : null}
 
                 {displayedData.length > 0 ? <HorizontalBar
-                    columns={columns}
                     label="Economy"
                     metricData={displayedData.map(row => { return row.economy })}
                     countries={displayedData.map(row => { return row.country })}
                 /> : null}
 
                 {displayedData.length > 0 ? <HorizontalBar
-                    columns={columns}
                     label="Family"
                     metricData={displayedData.map(row => { return row.family })}
                     countries={displayedData.map(row => { return row.country })}
                 /> : null}
 
                 {displayedData.length > 0 ? <HorizontalBar
-                    columns={columns}
                     label="Health"
                     metricData={displayedData.map(row => { return row.health })}
                     countries={displayedData.map(row => { return row.country })}
                 /> : null}
 
                 {displayedData.length > 0 ? <HorizontalBar
-                    columns={columns}
                     label="Freedom"
                     metricData={displayedData.map(row => { return row.freedom })}
                     countries={displayedData.map(row => { return row.country })}
                 /> : null}
 
                 {displayedData.length > 0 ? <HorizontalBar
-                    columns={columns}
                     label="Generosity"
                     metricData={displayedData.map(row => { return row.generosity })}
                     countries={displayedData.map(row => { return row.country })}
                 /> : null}
 
                 {displayedData.length > 0 ? <HorizontalBar
-                    columns={columns}
                     label="Trust"
                     metricData={displayedData.map(row => { return row.trust })}
                     countries={displayedData.map(row => { return row.country })}
                 /> : null}
-
-
             </div>
         </div>
     );

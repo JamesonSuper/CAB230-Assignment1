@@ -3,6 +3,7 @@
   background-image: linear-gradient(rgb(15, 15, 15), rgba(5, 5, 5));
   min-height: 100vh;
   text-align: center;
+  color: white;
 }
 
 nav ul {
