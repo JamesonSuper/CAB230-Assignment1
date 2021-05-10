@@ -17,10 +17,6 @@ export default function HorizontalBar(props) {
     indexAxis: 'y',
     layout: {
       padding: {
-        top: 5,
-        left: 15,
-        right: 15,
-        bottom: 15
       }
     },
     elements: {
@@ -34,7 +30,7 @@ export default function HorizontalBar(props) {
       legend: {
         position: 'top',
         labels: {
-          color: 'rgba(210, 210, 210, 1)',
+          color: 'rgba(230,230,230, 1)',
           display: true,
           boxWidth: 0,
           boxHeight: 0,
@@ -44,12 +40,12 @@ export default function HorizontalBar(props) {
     scales: {
       x: {
         ticks: {
-          color: 'rgba(210, 210, 210, 1)'
+          color: 'rgba(230,230,230, 1)'
         }
       },
       y: {
         ticks: {
-          color: 'rgba(210, 210, 210, 1)'
+          color: 'rgba(230,230,230, 1)'
         }
       }
     }

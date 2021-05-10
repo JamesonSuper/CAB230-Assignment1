@@ -214,7 +214,7 @@ export default function Factors() {
 
     return (
         <div className="container">
-            <h1 className="test">Country Happiness Rankings</h1>
+            <h1>Country Happiness Factors</h1>
             {search === "" ? (
                 <div>
                     Select year to query data: <select value={year} onChange={((e) => setYear(e.target.value))}>
@@ -231,7 +231,7 @@ export default function Factors() {
                 </div>
             )}
             <div>
-                Set query limit: <input type="number" min="1" onChange={((e) => setLimit(e.target.value))}></input>
+                Limit results sent: <input type="number" placeholder="Numeric characters only" min="1" onChange={((e) => setLimit(e.target.value))}></input>
             </div>
             <div>
                 <SearchBar
@@ -242,10 +242,10 @@ export default function Factors() {
             </div>
             <p>{rowData.length > 0 ? (<Badge color="success">{rowData.length}</Badge>) : (<Badge color="danger">{rowData.length}</Badge>)} Rankings loaded.</p>
             <div
-                className="ag-theme-balham-dark"
+                className="ag-theme-balham-dark ag-grid"
                 style={{
                     height: "347px",
-                    width: "886px"
+                    width: "1026px"
                 }}
             >
                 <AgGridReact
@@ -258,99 +258,100 @@ export default function Factors() {
                 />
             </div>
             {/* If search is null, display bar graphs */}
-            {search === "" ? (<div>
-                {displayedData.length > 1 ? <HorizontalBar
-                    label="Score"
-                    metricData={displayedData.map(row => { return row.score })}
-                    countries={displayedData.map(row => { return row.country })}
-                /> : null}
-
-                {displayedData.length > 1 ? <HorizontalBar
-                    label="Economy"
-                    metricData={displayedData.map(row => { return row.economy })}
-                    countries={displayedData.map(row => { return row.country })}
-                /> : null}
-
-                {displayedData.length > 1 ? <HorizontalBar
-                    label="Family"
-                    metricData={displayedData.map(row => { return row.family })}
-                    countries={displayedData.map(row => { return row.country })}
-                /> : null}
-
-                {displayedData.length > 1 ? <HorizontalBar
-                    label="Health"
-                    metricData={displayedData.map(row => { return row.health })}
-                    countries={displayedData.map(row => { return row.country })}
-                /> : null}
-
-                {displayedData.length > 1 ? <HorizontalBar
-                    label="Freedom"
-                    metricData={displayedData.map(row => { return row.freedom })}
-                    countries={displayedData.map(row => { return row.country })}
-                /> : null}
-
-                {displayedData.length > 1 ? <HorizontalBar
-                    label="Generosity"
-                    metricData={displayedData.map(row => { return row.generosity })}
-                    countries={displayedData.map(row => { return row.country })}
-                /> : null}
-
-                {displayedData.length > 1 ? <HorizontalBar
-                    label="Trust"
-                    metricData={displayedData.map(row => { return row.trust })}
-                    countries={displayedData.map(row => { return row.country })}
-                /> : null}
-            </div>) : (
-                // If Search is not null, display line graphs
-                <div>
-                    {displayedData.length > 1 ? <LineGraph
-                        label="Score"
-                        metricData={displayedData.map(row => { return row.score })}
-                        years={displayedData.map(row => { return row.year })}
-                        countries={displayedData.map(row => { return row.country })}
-                    /> : null}
-
-                    {displayedData.length > 1 ? <LineGraph
-                        label="Economy"
-                        metricData={displayedData.map(row => { return row.economy })}
-                        years={displayedData.map(row => { return row.year })}
-                        countries={displayedData.map(row => { return row.country })}
-                    /> : null}
-
-                    {displayedData.length > 1 ? <LineGraph
-                        label="Family"
-                        metricData={displayedData.map(row => { return row.family })}
-                        years={displayedData.map(row => { return row.year })}
-                        countries={displayedData.map(row => { return row.country })}
-                    /> : null}
-
-                    {displayedData.length > 1 ? <LineGraph
-                        label="Health"
-                        metricData={displayedData.map(row => { return row.health })}
-                        years={displayedData.map(row => { return row.year })}
-                        countries={displayedData.map(row => { return row.country })}
-                    /> : null}
-
-                    {displayedData.length > 1 ? <LineGraph
-                        label="Freedom"
-                        metricData={displayedData.map(row => { return row.freedom })}
-                        years={displayedData.map(row => { return row.year })}
-                        countries={displayedData.map(row => { return row.country })}
-                    /> : null}
-
-                    {displayedData.length > 1 ? <LineGraph
-                        label="Generosity"
-                        metricData={displayedData.map(row => { return row.generosity })}
-                        years={displayedData.map(row => { return row.year })}
-                        countries={displayedData.map(row => { return row.country })}
-                    /> : null}
-
-                    {displayedData.length > 1 ? <LineGraph
-                        label="Trust"
-                        metricData={displayedData.map(row => { return row.trust })}
-                        years={displayedData.map(row => { return row.year })}
-                        countries={displayedData.map(row => { return row.country })}
-                    /> : null}
+            {search === "" ? (
+                <div className="fillbackground">
+                    <div className="leftbox">
+                        {displayedData.length > 1 ? <HorizontalBar
+                            label="Economy"
+                            metricData={displayedData.map(row => { return row.economy })}
+                            countries={displayedData.map(row => { return row.country })}
+                        /> : null}
+                    </div>
+                    <div className="rightbox">
+                        {displayedData.length > 1 ? <HorizontalBar
+                            label="Family"
+                            metricData={displayedData.map(row => { return row.family })}
+                            countries={displayedData.map(row => { return row.country })}
+                        /> : null}
+                    </div>
+                    <div className="leftbox">
+                        {displayedData.length > 1 ? <HorizontalBar
+                            label="Health"
+                            metricData={displayedData.map(row => { return row.health })}
+                            countries={displayedData.map(row => { return row.country })}
+                        /> : null}
+                    </div>
+                    <div className="rightbox">
+                        {displayedData.length > 1 ? <HorizontalBar
+                            label="Freedom"
+                            metricData={displayedData.map(row => { return row.freedom })}
+                            countries={displayedData.map(row => { return row.country })}
+                        /> : null}
+                    </div>
+                    <div className="leftbox">
+                        {displayedData.length > 1 ? <HorizontalBar
+                            label="Generosity"
+                            metricData={displayedData.map(row => { return row.generosity })}
+                            countries={displayedData.map(row => { return row.country })}
+                        /> : null}
+                    </div>
+                    <div className="rightbox">
+                        {displayedData.length > 1 ? <HorizontalBar
+                            label="Trust"
+                            metricData={displayedData.map(row => { return row.trust })}
+                            countries={displayedData.map(row => { return row.country })}
+                        /> : null}
+                    </div>
+                </div>) : (// If Search is not null, display line graphs
+                <div className="fillbackground">
+                    <div className="leftbox">
+                        {displayedData.length > 1 ? <LineGraph
+                            label="Economy"
+                            metricData={displayedData.map(row => { return row.economy })}
+                            years={displayedData.map(row => { return row.year })}
+                            countries={displayedData.map(row => { return row.country })}
+                        /> : null}
+                    </div>
+                    <div className="rightbox">
+                        {displayedData.length > 1 ? <LineGraph
+                            label="Family"
+                            metricData={displayedData.map(row => { return row.family })}
+                            years={displayedData.map(row => { return row.year })}
+                            countries={displayedData.map(row => { return row.country })}
+                        /> : null}
+                    </div>
+                    <div className="leftbox">
+                        {displayedData.length > 1 ? <LineGraph
+                            label="Health"
+                            metricData={displayedData.map(row => { return row.health })}
+                            years={displayedData.map(row => { return row.year })}
+                            countries={displayedData.map(row => { return row.country })}
+                        /> : null}
+                    </div>
+                    <div className="rightbox">
+                        {displayedData.length > 1 ? <LineGraph
+                            label="Freedom"
+                            metricData={displayedData.map(row => { return row.freedom })}
+                            years={displayedData.map(row => { return row.year })}
+                            countries={displayedData.map(row => { return row.country })}
+                        /> : null}
+                    </div>
+                    <div className="leftbox">
+                        {displayedData.length > 1 ? <LineGraph
+                            label="Generosity"
+                            metricData={displayedData.map(row => { return row.generosity })}
+                            years={displayedData.map(row => { return row.year })}
+                            countries={displayedData.map(row => { return row.country })}
+                        /> : null}
+                    </div>
+                    <div className="rightbox">
+                        {displayedData.length > 1 ? <LineGraph
+                            label="Trust"
+                            metricData={displayedData.map(row => { return row.trust })}
+                            years={displayedData.map(row => { return row.year })}
+                            countries={displayedData.map(row => { return row.country })}
+                        /> : null}
+                    </div>
                 </div>
             )}
 

@@ -17,9 +17,17 @@ export default function SearchBar(props) {
                 }
             }
             setSuggestions(suggs);
-
         }
     };
+
+    function checkInput() {
+        if (/^[a-z A-Z]+$/.test(innerSearch))
+            props.onSubmit(innerSearch);
+        else {
+            setInnerSearch("");
+            alert("Countries aren't spelt with numbers :P")
+        }
+    }
 
     return (
         <div>
@@ -40,7 +48,7 @@ export default function SearchBar(props) {
             <button
                 id="search-button"
                 type="button"
-                onClick={() => props.onSubmit(innerSearch)}
+                onClick={() => checkInput()}
             >Search</button>
         </div>
 

@@ -21,19 +21,17 @@ export default function LineGraph(props) {
     indexAxis: 'x',
     layout: {
       padding: {
-        top: 5,
-        left: 15,
-        right: 15,
-        bottom: 15
       }
     },
     elements: {
+      line: {
+        backgroundColor: 'rgba(210, 210, 210, 1)',
+        borderColor: 'rgba(210, 210, 210, 1)',
+        fill: true,
+      },
       point: {
         pointBackgroundColor: 'rgba(210, 210, 210, 1)',
         pointRadius: 6,
-      },
-      line: {
-        backgroundColor: 'rgba(210, 210, 210, 1)',
       },
     },
     plugins: {

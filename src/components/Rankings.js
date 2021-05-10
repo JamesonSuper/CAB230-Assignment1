@@ -126,32 +126,35 @@ export default function Rankings() {
     });
 
     return (
-        <div className="container">
-            <h1>Country Happiness Rankings</h1>
-            <p>{rowData.length > 0 ? (<Badge color="success">{rowData.length}</Badge>) : (<Badge color="danger">{rowData.length}</Badge>)} Rankings loaded.</p>
-            <div>
-                <select value={year} onChange={((e) => setYear(e.target.value))}>
-                    <option value="">*</option>
-                    <option value="2020">2020</option>
-                    <option value="2019">2019</option>
-                    <option value="2018">2018</option>
-                    <option value="2017">2017</option>
-                    <option value="2016">2016</option>
-                    <option value="2015">2015</option>
-                </select>
-            </div>
-            <div>
+        <div className="container maxwidth">
+            <h1> Country Happiness Rankings</h1>
+            Select a year: <select value={year} onChange={((e) => setYear(e.target.value))}>
+                <option value="">*</option>
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                <option value="2017">2017</option>
+                <option value="2016">2016</option>
+                <option value="2015">2015</option>
+            </select>
+            <div className="c1">
                 <SearchBar
                     onSubmit={setSearch}
                     innerSearch={search}
                     countries={countriesArray}
                 />
             </div>
+            <p>{
+                rowData.length > 0 ?
+                    (<Badge color="success">{rowData.length}</Badge>)
+                    :
+                    (<Badge color="danger">{rowData.length}</Badge>)}
+            Rankings loaded.</p>
             <div
-                className="ag-theme-alpine-dark"
+                className="ag-theme-alpine-dark ag-grid"
                 style={{
-                    height: "508px",
-                    width: "882px"
+                    height: "520px",
+                    width: "1008px"
                 }}
             >
                 <AgGridReact
@@ -164,30 +167,38 @@ export default function Rankings() {
                 />
             </div>
             {/* If search is null, display bar graphs */}
-            {search === "" ? (<div>
-                {displayedData.length > 1 ? <HorizontalBar
-                    label="Score"
-                    metricData={displayedData.map(row => { return row.score })}
-                    countries={displayedData.map(row => { return row.country })}
-                /> : null}
-
-            </div>) : (
-                // If Search is not null, display line graphs
-                <div>
-                    {displayedData.length > 1 ? <LineGraph
-                        label="Rank"
-                        metricData={displayedData.map(row => { return row.rank })}
-                        years={displayedData.map(row => { return row.year })}
-                        countries={displayedData.map(row => { return row.country })}
-                    /> : null}
-                    {displayedData.length > 1 ? <LineGraph
-                        label="Score"
-                        metricData={displayedData.map(row => { return row.score })}
-                        years={displayedData.map(row => { return row.year })}
-                        countries={displayedData.map(row => { return row.country })}
-                    /> : null}
-                </div>
-            )}
-        </div>
+            {
+                search === "" ? (
+                    <div className="fillbackground">
+                        <div className="centrebox">
+                            {displayedData.length > 1 ? <HorizontalBar
+                                label="Score"
+                                metricData={displayedData.map(row => { return row.score })}
+                                countries={displayedData.map(row => { return row.country })}
+                            /> : null}
+                        </div>
+                    </div>) : (
+                    // If Search is not null, display line graphs
+                    <div className="fillbackground">
+                        <div className="leftbox">
+                            {displayedData.length > 1 ? <LineGraph
+                                label="Rank"
+                                metricData={displayedData.map(row => { return row.rank })}
+                                years={displayedData.map(row => { return row.year })}
+                                countries={displayedData.map(row => { return row.country })}
+                            /> : null}
+                        </div>
+                        <div className="rightbox">
+                            {displayedData.length > 1 ? <LineGraph
+                                label="Score"
+                                metricData={displayedData.map(row => { return row.score })}
+                                years={displayedData.map(row => { return row.year })}
+                                countries={displayedData.map(row => { return row.country })}
+                            /> : null}
+                        </div>
+                    </div>
+                )
+            }
+        </div >
     );
 }
