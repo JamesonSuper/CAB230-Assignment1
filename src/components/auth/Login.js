@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 
-const API_URL = "http://131.181.190.87:3000"
-
+//Called whenever the login page is navigated to.
 export default function Login() {
+    const API_URL = "http://131.181.190.87:3000";
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -21,12 +21,14 @@ export default function Login() {
         })
             .then(response => {
                 console.log(response.status + ": " + response.statusText);
+                //Because fetch treats status code 400 responses as success, check for this and alert error if so.
                 if (response.status > 399) {
                     alert("Error - " + response.status + ": " + response.statusText);
                 }
-                return response.json()
+                return response.json();
             })
             .then(data => {
+                // If the returned data is undefind, this means the credentials were invalid, do not assign to localstorage.
                 if (data.token !== undefined) {
                     localStorage.setItem("token", data.token);
                     setEmail("");
@@ -51,25 +53,30 @@ export default function Login() {
                 {localStorage.getItem("token") ?
                     (<p>You are logged in.</p>) :
                     (<div>
-                        <p>You are not logged in.</p>
                         <form onSubmit={(e) => handleSubmit(e)}>
-                            <input
-                                type="email"
-                                name="email"
-                                placeholder="Email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
-                            <input
-                                type="password"
-                                name="password"
-                                placeholder="Password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-                            <button type="submit">Login</button>
+                            <div>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    placeholder="Email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <button type="submit">Login</button>
+                            </div>
                         </form>
                     </div>
                     )}

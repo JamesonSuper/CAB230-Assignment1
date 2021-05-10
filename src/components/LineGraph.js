@@ -3,6 +3,7 @@ import { Line } from 'react-chartjs-2';
 import "../index.css"
 
 export default function LineGraph(props) {
+  // Line graph data
   const data = {
     labels: props.years,
     datasets:
@@ -17,6 +18,7 @@ export default function LineGraph(props) {
         }
       ]
   };
+  // Line graph styling options
   const options = {
     indexAxis: 'x',
     layout: {

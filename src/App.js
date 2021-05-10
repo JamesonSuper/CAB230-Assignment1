@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from 'react-router-dom'
-import { BrowserRouter as Router, Route, Switch , Redirect} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 
 import "./index.css";
 import Rankings from "./components/Rankings.js";
@@ -18,7 +18,6 @@ export default function App() {
         { name: "Login", path: "/login" },
         { name: "Logout", path: "/logout" }
     ]
-
     function Navbar() {
         return (
             <div>

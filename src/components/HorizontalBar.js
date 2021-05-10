@@ -2,7 +2,9 @@ import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import "../index.css"
 
+
 export default function HorizontalBar(props) {
+  // Bar graph data
   const data = {
     labels: props.countries,
     datasets:
@@ -13,6 +15,7 @@ export default function HorizontalBar(props) {
         }
       ]
   };
+  // Bar graph styling options
   const options = {
     indexAxis: 'y',
     layout: {

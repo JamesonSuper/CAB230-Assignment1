@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 
-const API_URL = "http://131.181.190.87:3000"
-
+// Called whenever the registration page is navigated to.
 export default function Registration() {
+    const API_URL = "http://131.181.190.87:3000";
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -47,23 +47,29 @@ export default function Registration() {
             <h1>Register</h1>
             <div>
                 <form onSubmit={(e) => handleSubmit(e)}>
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                    <button type="submit">Login</button>
+                    <div>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <button type="submit">Login</button>
+                    </div>
                 </form>
             </div>
         </div>

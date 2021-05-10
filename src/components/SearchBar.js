@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 export default function SearchBar(props) {
     const [innerSearch, setInnerSearch] = useState("");
@@ -21,11 +21,17 @@ export default function SearchBar(props) {
     };
 
     function checkInput() {
-        if (/^[a-z A-Z]+$/.test(innerSearch))
-            props.onSubmit(innerSearch);
+        if (innerSearch.length !== 0) {
+            if (/^[a-z A-Z]+$/.test(innerSearch))
+                props.onSubmit(innerSearch);
+            else {
+                setInnerSearch("");
+                alert("Please only enter letters.")
+            }
+        }
         else {
             setInnerSearch("");
-            alert("Countries aren't spelt with numbers :P")
+            props.onSubmit(innerSearch);
         }
     }
 

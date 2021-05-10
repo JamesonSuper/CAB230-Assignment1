@@ -9,7 +9,6 @@ import LineGraph from "./LineGraph.js";
 import "../index.css"
 
 
-
 export default function Rankings() {
     const [isReady, useIsReady] = useState(false);
     const [search, setSearch] = useState("");

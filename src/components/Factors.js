@@ -8,7 +8,7 @@ import SearchBar from "./SearchBar.js"
 import HorizontalBar from "./HorizontalBar.js";
 import LineGraph from "./LineGraph.js";
 
-
+// Called whenever the factors page is navigated to.
 export default function Factors() {
     const [isReady, useIsReady] = useState(false);
     const [search, setSearch] = useState("");
@@ -30,21 +30,20 @@ export default function Factors() {
         { headerName: "Generosity", field: "generosity", width: 90, sortable: true, filter: 'agNumberColumnFilter' },
         { headerName: "Trust", field: "trust", width: 90, sortable: true, filter: 'agNumberColumnFilter' }
     ];
+
     useEffect(() => {
-        // Check initially if user has a token stored.
+        // Check initially if user has a token stored to verify authentication.
         if (localStorage.getItem("token")) {
             let results = [];
             // Check if user has searched for a country, if so, load all year data for that country.
             if (search !== "") {
-                let localyear = 2014
-                console.log(limit)
-
+                let localyear = 2014;
                 for (let i = 1; i < 7; i++) {
                     let url = `${API_URL}/factors/${localyear + i}?`;
                     if (limit > 0) {
-                        if (i > limit) {
+                        // If a limit has been set, only load that many records
+                        if (i > limit)
                             break;
-                        }
                         url += `limit=${limit}&`
                     }
                     if (search !== "")
@@ -86,25 +85,23 @@ export default function Factors() {
                         });
 
                 }
-            } // If not, load only the year selected data.
+            } // If no country searched for, load only the year selected data.
             else {
                 let url = `${API_URL}/factors/${year}?`;
-                if (limit > 0) {
+                if (limit > 0)
                     url += `limit=${limit}&`
-                }
-                if (search !== "") {
+                if (search !== "")
                     url += `country=${search}`
-                }
                 fetch(url, {
                     headers: {
                         Authorization: 'Bearer ' + localStorage.getItem("token")
                     }
                 })
                     .then(res => {
-                        console.log(res.status + " - " + res.statusText)
-                        if (res.status > 300) {
+                        console.log(res.status + " - " + res.statusText);
+                        //Because fetch treats status code 400 responses as success, check for this and alert error if so.
+                        if (res.status > 300)
                             throw new Error(res.statusText);
-                        }
                         return res.json();
                     })
                     .then(listings =>
@@ -173,6 +170,7 @@ export default function Factors() {
             // Checking if data displayed is less than 10 rows (e.g on the last page)
             setDisplayedData([]);
             if (rowData.length > 0) {
+                // If the page is the final page, then only loop total record count % 10 many times as to not inbox out of bounds.
                 if (params.api.paginationGetCurrentPage() + 1 === params.api.paginationGetTotalPages()) {
                     for (let i = 0; i < rowData.length % 10; i++) {
                         if (params.api.getDisplayedRowAtIndex(pageNumber + i) !== undefined) {
@@ -188,6 +186,7 @@ export default function Factors() {
                     }
                 }
             }
+            // If a country has been searched for, force sort by year in ascending order to give purpose to line graphs.
             if (search !== "") {
                 params.columnApi.applyColumnState({
                     state: [
@@ -354,7 +353,6 @@ export default function Factors() {
                     </div>
                 </div>
             )}
-
         </div>
     );
 }
