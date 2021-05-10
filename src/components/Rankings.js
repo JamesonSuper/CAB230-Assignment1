@@ -106,7 +106,7 @@ export default function Rankings() {
                     state: [
                         {
                             colId: 'year',
-                            sort: 'desc',
+                            sort: 'asc',
                         }
                     ]
                 })

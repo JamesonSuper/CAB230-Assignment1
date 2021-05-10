@@ -26,19 +26,30 @@ export default function HorizontalBar(props) {
     elements: {
       bar: {
         borderWidth: 2,
-        backgroundColor: 'rgba(220, 220, 220, 1)',
-        borderColor: 'rgba(0, 0, 0, 1)',
-        borderRadius: 200,
+        backgroundColor: 'rgba(45,52,54, 1)',
+        borderColor: 'rgba(210, 210, 210, 1)',
       },
     },
     plugins: {
       legend: {
-        position: 'right',
+        position: 'top',
         labels: {
-          color: 'rgba(220, 220, 220, 1)',
+          color: 'rgba(210, 210, 210, 1)',
           display: true,
           boxWidth: 0,
           boxHeight: 0,
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: 'rgba(210, 210, 210, 1)'
+        }
+      },
+      y: {
+        ticks: {
+          color: 'rgba(210, 210, 210, 1)'
         }
       }
     }

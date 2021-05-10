@@ -20,23 +20,43 @@ export default function LineGraph(props) {
   const options = {
     indexAxis: 'x',
     layout: {
-      padding: 10
+      padding: {
+        top: 5,
+        left: 15,
+        right: 15,
+        bottom: 15
+      }
     },
     elements: {
-      bar: {
-        borderWidth: 2,
+      point: {
+        pointBackgroundColor: 'rgba(210, 210, 210, 1)',
+        pointRadius: 6,
+      },
+      line: {
+        backgroundColor: 'rgba(210, 210, 210, 1)',
       },
     },
     plugins: {
       legend: {
-        position: 'right',
+        position: 'top',
         labels: {
-          fontColor: '#f60',
+          color: 'rgba(210, 210, 210, 1)',
+          display: true,
+          boxWidth: 0,
+          boxHeight: 0,
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: 'rgba(210, 210, 210, 1)'
         }
       },
-      title: {
-        display: true,
-        text: props.label,
+      y: {
+        ticks: {
+          color: 'rgba(210, 210, 210, 1)'
+        }
       }
     }
   };

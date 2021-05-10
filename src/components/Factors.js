@@ -193,7 +193,7 @@ export default function Factors() {
                     state: [
                         {
                             colId: 'year',
-                            sort: 'desc',
+                            sort: 'asc',
                         }
                     ]
                 })
