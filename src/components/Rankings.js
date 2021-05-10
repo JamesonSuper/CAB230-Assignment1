@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { Badge } from "reactstrap";
-import SearchBar from "./SearchBar.js"
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
+import SearchBar from "./SearchBar.js"
 
 const API_URL = "http://131.181.190.87:3000";
 
@@ -11,7 +11,7 @@ const API_URL = "http://131.181.190.87:3000";
 export default function Rankings() {
     const [search, setSearch] = useState("");
     const [rowData, setRowData] = useState([]);
-    const [year, setYear] = useState(2020);
+    const [year, setYear] = useState();
     const [countriesArray, setCountriesArray] = useState([]);
     const columns = [
         { headerName: "Rank", field: "rank", width: "170px", sortable: true, filter: 'agNumberColumnFilter' },
@@ -20,7 +20,14 @@ export default function Rankings() {
         { headerName: "Year", field: "year", width: "220px", sortable: true, filter: 'agNumberColumnFilter' }
     ];
     useEffect(() => {
-        fetch(API_URL + `/rankings?year=${year}&country=${search}`)
+        let url = `${API_URL}/rankings?`
+        if (year !== undefined) {
+            url += `year=${year}&`
+        }
+        if (search !== "") {
+            url += `country=${search}`
+        }
+        fetch(url)
             .then(res => res.json())
             .then(listings =>
                 listings.map(listing => {
@@ -34,8 +41,7 @@ export default function Rankings() {
             )
             .then(listings => setRowData(listings))
             .catch(error => {
-                console.log("There was a network error: ", error);
-                alert(`There was an error: ${error}`);
+                console.log("There was an error: ", error);
             });
         fetch(API_URL + `/countries`)
             .then(res => {
@@ -50,7 +56,6 @@ export default function Rankings() {
             })
             ).then(countries => {
                 setCountriesArray(countries)
-                console.log(countries)
             }).catch(error => {
                 console.log("There was a network error!", error);
             });
@@ -59,11 +64,10 @@ export default function Rankings() {
     return (
         <div className="container">
             <h1>Country Happiness Rankings</h1>
-            <p>
-                <Badge color="success">{rowData.length}</Badge> Rankings loaded.
-            </p>
+            <p>{rowData.length > 0 ? (<Badge color="success">{rowData.length}</Badge>) : (<Badge color="danger">{rowData.length}</Badge>)} Rankings loaded.</p>
             <div>
                 <select value={year} onChange={((e) => setYear(e.target.value))}>
+                    <option value=""></option>
                     <option value="2020">2020</option>
                     <option value="2019">2019</option>
                     <option value="2018">2018</option>
@@ -73,12 +77,10 @@ export default function Rankings() {
                 </select>
             </div>
             <div>
-                <select value={search} onChange={((e) => setSearch(e.target.value))}>
-                    <option key="" value=""></option>
-                    {countriesArray.map(country =>
-                        <option key={country} value={country}>{country}</option>)}
-                </select>
-                <SearchBar onSubmit={setSearch} innerSearch={search} />
+                <SearchBar
+                    onSubmit={setSearch}
+                    innerSearch={search}
+                    countries={countriesArray} />
             </div>
             <div
                 className="ag-theme-alpine-dark"

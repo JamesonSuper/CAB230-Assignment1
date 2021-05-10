@@ -144,14 +144,11 @@ export default function Factors() {
                 Set query limit: <input type="number" min="1" onChange={((e) => setLimit(e.target.value))}></input>
             </div>
             <div>
-                Pick a country to see only it's results: <select value={search} onChange={((e) => setSearch(e.target.value))}>
-                    <option key="" value=""></option>
-                    {countriesArray.map(country =>
-                        <option key={country} value={country}>{country}</option>)}
-                </select>
-            </div>
-            <div>
-                or search for country name: <SearchBar onSubmit={setSearch} innerSearch={search} />
+                <SearchBar
+                    onSubmit={setSearch}
+                    innerSearch={search}
+                    countries={countriesArray}
+                />
             </div>
             <p>{rowData.length > 0 ? (<Badge color="success">{rowData.length}</Badge>) : (<Badge color="danger">{rowData.length}</Badge>)} Rankings loaded.</p>
             <div
