@@ -27,10 +27,15 @@ export default function Login() {
                 return response.json()
             })
             .then(data => {
-                localStorage.setItem("token", data.token);
-                alert("Success! You are logged in.");
-                setEmail("");
-                setPassword("");
+                if (data.token !== undefined) {
+                    localStorage.setItem("token", data.token);
+                    setEmail("");
+                    setPassword("");
+                    alert("Success! You are logged in.");
+                }
+                else {
+                    console.log("Token returned was null.");
+                }
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -40,26 +45,36 @@ export default function Login() {
             });
     }
     return (
+
         <div>
-            <form onSubmit={(e) => handleSubmit(e)}>
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                <button type="submit">Login</button>
-            </form>
-        </div>
+            <h1>Login</h1>
+            <div>
+                {localStorage.getItem("token") ?
+                    (<p>You are logged in.</p>) :
+                    (<div>
+                        <p>You are not logged in.</p>
+                        <form onSubmit={(e) => handleSubmit(e)}>
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="Email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                            <button type="submit">Login</button>
+                        </form>
+                    </div>
+                    )}
+            </div>
+        </div >
     );
 }

@@ -34,36 +34,3 @@ nav li {
 .inline {
   display:inline-block;
 }
-
-.react-select-container {
-
-}
-
-.react-select-container__value {
-
-}
-
-.react-select-container__select {
-
-}
-
-.react-select-container__options{
-  list-style-type: none;
-
-}
-
-.react-select-container__row {
-
-}
-
-.react-select-container__option {
-
-}
-
-.react-select-container__select {
-
-}
-
-.is-selected{
-
-}
