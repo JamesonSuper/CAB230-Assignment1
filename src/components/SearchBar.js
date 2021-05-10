@@ -26,7 +26,7 @@ export default function SearchBar(props) {
                 props.onSubmit(innerSearch);
             else {
                 setInnerSearch("");
-                alert("Please only enter letters.")
+                alert("Please only enter letters.");
             }
         }
         else {

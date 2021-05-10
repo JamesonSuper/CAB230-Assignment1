@@ -8,7 +8,7 @@ import HorizontalBar from "./HorizontalBar.js";
 import LineGraph from "./LineGraph.js";
 import "../index.css"
 
-
+// Called each time Rankings is navigated to
 export default function Rankings() {
     const [isReady, useIsReady] = useState(false);
     const [search, setSearch] = useState("");
@@ -48,10 +48,8 @@ export default function Rankings() {
         fetch(API_URL + `/countries`)
             .then(res => {
                 console.log(res.status + " - " + res.statusText)
-                if (res.status > 300) {
+                if (res.status > 300)
                     alert("Error: " + res.status + " - " + res.statusText);
-
-                }
                 return res.json();
             }).then(countries => countries.map(country => {
                 return country
@@ -63,14 +61,14 @@ export default function Rankings() {
             });
     }, [search, year])
 
-    // Setting up a callback reference to the gridApi to avoid stale closures
+    // This method is used to setup a callback reference to the gridApi to avoid stale closures
     function useDynamicCallback(callback) {
         const ref = useRef();
         ref.current = callback;
         return useCallback((...args) => ref.current.apply(this, args), []);
     }
 
-    // For the program to know that the ag-grid and its API is ready to be called upon
+    // Setting ready state for the ag-grid API 
     const onGridReady = params => {
         useIsReady(true);
     }
@@ -100,6 +98,7 @@ export default function Rankings() {
                     }
                 }
             }
+            // If a country has been searched for, force sort by year in ascending order to give purpose to line graphs.
             if (search !== "") {
                 params.columnApi.applyColumnState({
                     state: [
