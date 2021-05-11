@@ -20,6 +20,11 @@ export default function SearchBar(props) {
         }
     };
 
+    function clearInput() {
+        setInnerSearch("");
+        props.onSubmit("");
+    }
+
     function checkInput() {
         if (innerSearch.length !== 0) {
             if (/^[a-z A-Z]+$/.test(innerSearch))
@@ -31,10 +36,9 @@ export default function SearchBar(props) {
         }
         else {
             setInnerSearch("");
-            props.onSubmit(innerSearch);
+            props.onSubmit("");
         }
     }
-
     return (
         <div>
             <input
@@ -50,13 +54,16 @@ export default function SearchBar(props) {
                 {suggestions.map(country =>
                     <option key={country} value={country}>{country}</option>)}
             </datalist>
-
             <button
                 id="search-button"
                 type="button"
                 onClick={() => checkInput()}
             >Search</button>
+            <button
+                id="clear-button"
+                type="button"
+                onClick={() => clearInput()}
+            >Clear</button>
         </div>
-
     );
 }
