@@ -166,12 +166,10 @@ export default function Factors() {
             let toUpdate = []
             // Multiplying pageNumber by 10 so that the index below is incremented by 10, as 10 records per page.
             let pageNumber = params.api.paginationGetCurrentPage() * 10;
-
-            // Checking if data displayed is less than 10 rows (e.g on the last page)
             setDisplayedData([]);
             if (rowData.length > 0) {
                 // If the page is the final page, then only loop total record count % 10 many times as to not inbox out of bounds.
-                if (params.api.paginationGetCurrentPage() + 1 === params.api.paginationGetTotalPages()) {
+                if (params.api.paginationGetCurrentPage() + 1 === params.api.paginationGetTotalPages() && params.api.paginationGetTotalPages() !== 1) {
                     for (let i = 0; i < rowData.length % 10; i++) {
                         if (params.api.getDisplayedRowAtIndex(pageNumber + i) !== undefined) {
                             toUpdate.push(params.api.getDisplayedRowAtIndex(pageNumber + i).data)
@@ -186,6 +184,7 @@ export default function Factors() {
                     }
                 }
             }
+            setDisplayedData(toUpdate);
             // If a country has been searched for, force sort by year in ascending order to give purpose to line graphs.
             if (search !== "") {
                 params.columnApi.applyColumnState({
@@ -207,7 +206,6 @@ export default function Factors() {
                     ]
                 })
             }
-            setDisplayedData(toUpdate);
         }
     });
 
@@ -239,7 +237,12 @@ export default function Factors() {
                     countries={countriesArray}
                 />
             </div>
-            <p>{rowData.length > 0 ? (<Badge color="success">{rowData.length}</Badge>) : (<Badge color="danger">{rowData.length}</Badge>)} Rankings loaded.</p>
+            <p>
+                {rowData.length > 0 ? (
+                    <Badge color="success">{rowData.length}</Badge>) :
+                    (<Badge color="danger">{rowData.length}</Badge>)
+                } Rankings loaded.
+            </p>
             <div
                 className="ag-theme-balham-dark ag-grid"
                 style={{
